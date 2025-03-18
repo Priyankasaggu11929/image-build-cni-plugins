@@ -1,6 +1,6 @@
 <services>
   <service name="obs_scm">
-    <param name="url">=https://github.com/containernetworking/plugins.git</param>
+    <param name="url">https://github.com/containernetworking/plugins.git</param>
     <param name="scm">git</param>
     <param name="package-meta">yes</param>
     <param name="versionformat">@PARENT_TAG@</param>
