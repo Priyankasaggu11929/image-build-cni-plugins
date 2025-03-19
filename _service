@@ -19,18 +19,7 @@
     <param name="without-version">yes</param>
   </service>
 
-  <service name="obs_scm">
-    <param name="url">https://github.com/flannel-io/cni-plugin.git</param>
-    <param name="scm">git</param>
-    <param name="package-meta">yes</param>
-    <param name="versionformat">@PARENT_TAG@</param>
-    <param name="versionrewrite-pattern">v(.*)</param>
-    <param name="revision">v1.6.2-flannel1</param>
-    <param name="without-version">yes</param>
-  </service>
-  <service name="go_modules">
-    <param name="archive">*cni-plugin.obscpio</param>
-  </service>
+
 
 
   <service name="download_assets" />
