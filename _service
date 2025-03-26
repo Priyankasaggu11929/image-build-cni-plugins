@@ -1,4 +1,20 @@
 <services>
+
+  <service name="obs_scm">
+    <param name="url">https://github.com/flannel-io/cni-plugin.git</param>
+    <param name="scm">git</param>
+    <param name="package-meta">yes</param>
+    <param name="versionformat">@PARENT_TAG@</param>
+    <param name="versionrewrite-pattern">v(.*)</param>
+    <param name="revision">main</param>
+    <param name="without-version">yes</param>
+  </service>
+
+  <service name="go_modules">
+    <param name="archive">*cni-plugin.obscpio</param>
+  </service>
+
+
   <service name="obs_scm">
     <param name="url">https://github.com/containernetworking/plugins.git</param>
     <param name="scm">git</param>
@@ -17,20 +33,6 @@
     <param name="versionrewrite-pattern">v(.*)</param>
     <param name="revision">80bef2cd60be32bef9dc08b1a30aaea5282c0311</param>
     <param name="without-version">yes</param>
-  </service>
-
-  <service name="obs_scm">
-    <param name="url">https://github.com/flannel-io/cni-plugin.git</param>
-    <param name="scm">git</param>
-    <param name="package-meta">yes</param>
-    <param name="versionformat">@PARENT_TAG@</param>
-    <param name="versionrewrite-pattern">v(.*)</param>
-    <param name="revision">main</param>
-    <param name="without-version">yes</param>
-  </service>
-
-  <service name="go_modules">
-    <param name="archive">*cni-plugin.obscpio</param>
   </service>
 
   <service name="download_assets" />
