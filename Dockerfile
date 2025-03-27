@@ -52,8 +52,7 @@ ADD vendor.tar.gz $GOPATH/src/github.com/flannel-io/cni-plugin
 ARG TARGETPLATFORM
 ENV CGO_ENABLED=1
 # cross-compile cni-plugins
-RUN cd $GOPATH/src/github.com/containernetworking/plugins && \
-    sed -i 's|\${GO:-go} build |\${GO:-go} build -mod=vendor -buildvcs=false |' build_linux.sh \
+RUN cd $GOPATH/src/github.com/containernetworking/plugins; sed -i 's|\${GO:-go} build |\${GO:-go} build -mod=vendor -buildvcs=false |' build_linux.sh && \
      sh -ex ./build_linux.sh -v \
     -gcflags=-trimpath=/go/src \
     -ldflags " \
