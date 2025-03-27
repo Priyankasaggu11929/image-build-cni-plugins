@@ -53,7 +53,7 @@ ARG TARGETPLATFORM
 ENV CGO_ENABLED=1
 # cross-compile cni-plugins
 RUN cd $GOPATH/src/github.com/containernetworking/plugins && \
-    GO=xx-go sh -ex ./build_linux.sh -v \
+     sh -ex ./build_linux.sh -v \
     -gcflags=-trimpath=/go/src \
     -mod=vendor -buildvcs=false \
     -ldflags " \
