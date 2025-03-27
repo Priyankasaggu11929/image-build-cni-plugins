@@ -53,11 +53,12 @@ ARG TARGETPLATFORM
 ENV CGO_ENABLED=1
 # cross-compile cni-plugins
 RUN cd $GOPATH/src/github.com/containernetworking/plugins && \
-    sh -ex ./build_linux.sh -v \
+    GO=xx-go sh -ex ./build_linux.sh -v \
     -gcflags=-trimpath=/go/src \
+    -mod=vendor -buildvcs=false \
     -ldflags " \
         -X github.com/containernetworking/plugins/pkg/utils/buildversion.BuildVersion=${TAG} \
-        -linkmode=external -extldflags \"-static -Wl,--fatal-warnings\" -mod=vendor -buildvcs=false \
+        -linkmode=external -extldflags \"-static -Wl,--fatal-warnings\" \
     "
 
 # cross-compile flannel
