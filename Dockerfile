@@ -63,7 +63,8 @@ RUN cd $GOPATH/src/github.com/containernetworking/plugins; \
 
 # cross-compile flannel
 ADD vendor.tar.gz $GOPATH/src/github.com/flannel-io/cni-plugin
-RUN cd $GOPATH/src/github.com/flannel-io/cni-plugin; \
+RUN if [ "$(uname -m)" == "x86_64" ]; then export ARCH="amd64"; elif [ "$(uname -m)" == "aarch64" ]; then export ARCH="arm64"; fi; \
+    cd $GOPATH/src/github.com/flannel-io/cni-plugin; \
     sed -i 's/^build_linux: vendor$/build_linux:/g' Makefile; \
     sed -i 's/go build/go build -mod=vendor -buildvcs=false/g' scripts/build_flannel.sh && \
     make build_linux && \
@@ -76,7 +77,8 @@ RUN cd $GOPATH/src/github.com/k8snetworkplumbingwg/bond-cni && \
     mv $GOPATH/src/github.com/k8snetworkplumbingwg/bond-cni/bin/bond $GOPATH/src/github.com/containernetworking/plugins/bin/bond
 
 WORKDIR $GOPATH/src/github.com/containernetworking/plugins
-RUN go-assert-static.sh bin/* && \
+RUN if [ "$(uname -m)" == "x86_64" ]; then export ARCH="amd64"; elif [ "$(uname -m)" == "aarch64" ]; then export ARCH="arm64"; fi; \
+    go-assert-static.sh bin/* && \
     if [ "${ARCH}" = "amd64" ]; then \
         go-assert-boring.sh bin/bandwidth \
         bin/bond \
