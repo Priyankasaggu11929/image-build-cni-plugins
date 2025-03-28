@@ -64,7 +64,7 @@ RUN cd $GOPATH/src/github.com/containernetworking/plugins; \
 # cross-compile flannel
 ADD vendor.tar.gz $GOPATH/src/github.com/flannel-io/cni-plugin
 RUN cd $GOPATH/src/github.com/flannel-io/cni-plugin; \
-    sed -i 's/^build_linux: vendor$/build_linux:/g' scripts/build_flannel.sh; \
+    sed -i 's/^build_linux: vendor$/build_linux:/g' Makefile; \
     sed -i 's/go build/go build -mod=vendor -buildvcs=false/g' scripts/build_flannel.sh && \
     make build_linux && \
     mkdir -p $GOPATH/src/github.com/containernetworking/plugins/bin && \
