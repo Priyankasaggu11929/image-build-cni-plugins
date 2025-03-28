@@ -79,20 +79,21 @@ RUN cd $GOPATH/src/github.com/k8snetworkplumbingwg/bond-cni && \
 WORKDIR $GOPATH/src/github.com/containernetworking/plugins
 RUN if [ "$(uname -m)" == "x86_64" ]; then export ARCH="amd64"; elif [ "$(uname -m)" == "aarch64" ]; then export ARCH="arm64"; fi; \
     go-assert-static.sh bin/* && \
-    if [ "${ARCH}" = "amd64" ]; then \
-        go-assert-boring.sh bin/bandwidth \
-        bin/bond \
-        bin/bridge \
-        bin/dhcp \
-        bin/firewall \
-        bin/host-device \
-        bin/host-local \
-        bin/ipvlan \
-        bin/macvlan \
-        bin/portmap \
-        bin/ptp \
-        bin/vlan ; \
-    fi && \
+    # TODO(psaggu): uncomment below block, once we switch to building with goboring
+    # if [ "${ARCH}" = "amd64" ]; then \
+        # go-assert-boring.sh bin/bandwidth \
+        # bin/bond \
+        # bin/bridge \
+        # bin/dhcp \
+        # bin/firewall \
+        # bin/host-device \
+        # bin/host-local \
+        # bin/ipvlan \
+        # bin/macvlan \
+        # bin/portmap \
+        # bin/ptp \
+        # bin/vlan ; \
+    # fi && \
     mkdir -vp /opt/cni/bin && \
     install -D bin/* /opt/cni/bin
 
