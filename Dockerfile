@@ -52,7 +52,8 @@ ADD vendor.tar.gz $GOPATH/src/github.com/flannel-io/cni-plugin
 ARG TARGETPLATFORM
 ENV CGO_ENABLED=1
 # cross-compile cni-plugins
-RUN cd $GOPATH/src/github.com/containernetworking/plugins; sed -i 's|\${GO:-go} build |\${GO:-go} build -mod=vendor -buildvcs=false |' build_linux.sh && \
+RUN cd $GOPATH/src/github.com/containernetworking/plugins; \
+     sed -i 's|\${GO:-go} build |\${GO:-go} build -mod=vendor -buildvcs=false |' build_linux.sh && \
      sh -ex ./build_linux.sh -v \
     -gcflags=-trimpath=/go/src \
     -ldflags " \
@@ -62,7 +63,8 @@ RUN cd $GOPATH/src/github.com/containernetworking/plugins; sed -i 's|\${GO:-go} 
 
 # cross-compile flannel
 ADD vendor.tar.gz $GOPATH/src/github.com/flannel-io/cni-plugin
-RUN cd $GOPATH/src/github.com/flannel-io/cni-plugin && \
+RUN cd $GOPATH/src/github.com/flannel-io/cni-plugin; \
+    sed -i 's/go build/go build -mod=vendor -buildvcs=false/g' scripts/build_flannel.sh && \
     make build_linux && \
     mkdir -p $GOPATH/src/github.com/containernetworking/plugins/bin && \
     mv $GOPATH/src/github.com/flannel-io/cni-plugin/dist/flannel-${ARCH} $GOPATH/src/github.com/containernetworking/plugins/bin/flannel
