@@ -4,6 +4,10 @@
 #!BuildTag: rancher/image-build-cni-plugins:latest
 #!BuildName: image-build-cni-plugins
 
+# INFO: image-build-base:latest provides the following:
+# required packages (make, musl-gcc, musl-libc-static, etc)
+# ENV instructions setting CC, and C_INCLUDE_PATH, to build with musl libc
+
 ARG BCI_IMAGE=registry.suse.com/bci/bci-busybox
 ARG GO_IMAGE=rancher/image-build-base:latest
 
@@ -11,13 +15,10 @@ ARG GO_IMAGE=rancher/image-build-base:latest
 # ARG GOEXPERIMENT=boringcrypto
 
 ### Build the cni-plugins ###
-FROM ${GO_IMAGE} AS base_builder
+# FROM ${GO_IMAGE} AS base_builder
+# FROM base_builder AS cni_plugins_builder
 
-# INFO: setting up all required packages are coming from the image-build-base:latest
-
-ARG TARGETPLATFORM
-
-FROM base_builder AS cni_plugins_builder
+FROM ${GO_IMAGE} AS cni_plugins_builder
 ARG TAG=v1.6.2
 ARG FLANNEL_TAG=v1.6.2-flannel1
 ARG BOND_COMMIT=80bef2cd60be32bef9dc08b1a30aaea5282c0311
@@ -26,6 +27,7 @@ ENV C_INCLUDE_PATH="/usr/x86_64-linux-musl/include/:/usr/include/"
 ENV CC="musl-gcc"
 
 # ARG GOEXPERIMENT
+
 #clone and get dependencies
 
 COPY plugins $GOPATH/src/github.com/containernetworking/plugins
