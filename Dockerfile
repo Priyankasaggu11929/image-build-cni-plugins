@@ -5,8 +5,8 @@
 #!BuildName: hardened-cni-plugins
 
 # INFO: image-build-base:latest provides the following:
-# required packages (make, musl-gcc, musl-libc-static, etc)
-# ENV instructions setting CC, and C_INCLUDE_PATH, to build with musl libc
+# - required packages (make, musl-gcc, musl-libc-static, etc)
+# - set CC, and C_INCLUDE_PATH evironment variables, to enable building with musl libc
 
 ARG BCI_IMAGE=registry.suse.com/bci/bci-busybox
 ARG GO_IMAGE=rancher/image-build-base:latest
@@ -22,8 +22,6 @@ ARG TAG=v1.6.2
 ARG FLANNEL_TAG=v1.6.2-flannel1
 ARG BOND_COMMIT=80bef2cd60be32bef9dc08b1a30aaea5282c0311
 
-ENV C_INCLUDE_PATH="/usr/x86_64-linux-musl/include/:/usr/include/"
-ENV CC="musl-gcc"
 
 # ARG GOEXPERIMENT
 
@@ -67,21 +65,20 @@ RUN cd $GOPATH/src/github.com/k8snetworkplumbingwg/bond-cni && \
 WORKDIR $GOPATH/src/github.com/containernetworking/plugins
 RUN if [ "$(uname -m)" == "x86_64" ]; then export ARCH="amd64"; elif [ "$(uname -m)" == "aarch64" ]; then export ARCH="arm64"; fi; \
     go-assert-static.sh bin/* && \
-    # TODO(psaggu): uncomment below block, once we switch to building with goboring
-    # if [ "${ARCH}" = "amd64" ]; then \
-        # go-assert-boring.sh bin/bandwidth \
-        # bin/bond \
-        # bin/bridge \
-        # bin/dhcp \
-        # bin/firewall \
-        # bin/host-device \
-        # bin/host-local \
-        # bin/ipvlan \
-        # bin/macvlan \
-        # bin/portmap \
-        # bin/ptp \
-        # bin/vlan ; \
-    # fi && \
+    if [ "${ARCH}" = "amd64" ]; then \
+        go-assert-boring.sh bin/bandwidth \
+        bin/bond \
+        bin/bridge \
+        bin/dhcp \
+        bin/firewall \
+        bin/host-device \
+        bin/host-local \
+        bin/ipvlan \
+        bin/macvlan \
+        bin/portmap \
+        bin/ptp \
+        bin/vlan ; \
+    fi && \
     mkdir -vp /opt/cni/bin && \
     install -D bin/* /opt/cni/bin
 
