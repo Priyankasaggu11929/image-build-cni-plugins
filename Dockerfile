@@ -1,8 +1,8 @@
 #!UseOBSRepositories
 
-#!BuildTag: rancher/image-build-cni-plugins:v1.6.2
-#!BuildTag: rancher/image-build-cni-plugins:latest
-#!BuildName: image-build-cni-plugins
+#!BuildTag: rancher/hardened-cni-plugins:v1.6.2
+#!BuildTag: rancher/hardened-cni-plugins:latest
+#!BuildName: hardened-cni-plugins
 
 # INFO: image-build-base:latest provides the following:
 # required packages (make, musl-gcc, musl-libc-static, etc)
@@ -10,7 +10,6 @@
 
 ARG BCI_IMAGE=registry.suse.com/bci/bci-busybox
 ARG GO_IMAGE=rancher/image-build-base:latest
-
 
 # ARG GOEXPERIMENT=boringcrypto
 
