@@ -12,21 +12,8 @@ ARG GO_IMAGE=rancher/image-build-base:latest
 
 ### Build the cni-plugins ###
 FROM ${GO_IMAGE} AS base_builder
-# setup required packages
-RUN set -euo pipefail; \
-    zypper -n install --no-recommends \
-    # file \
-    # gcc \
-    # git \
-    # clang \
-    # lld \
-    # glibc \
-    # glibc-devel-static \    
-    musl-gcc \
-    musl-libc-static \
-    make; \
-    zypper -n clean; \
-    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
+
+# INFO: setting up all required packages are coming from the image-build-base:latest
 
 ARG TARGETPLATFORM
 
